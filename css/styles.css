@@ -11720,3 +11720,10 @@ body {
 .footer {
   padding: 5rem 0;
 }
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
