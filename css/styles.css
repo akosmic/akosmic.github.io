@@ -11558,7 +11558,7 @@ body {
 
 .masthead {
   position: relative;
-  width: 100%;
+  max-width: 100%;
   height: auto;
   min-height: 35rem;
   padding: 50rem 50rem;
@@ -11579,16 +11579,16 @@ body {
           background-clip: text;
 }
 .masthead h2, .masthead .h2 {
-  max-width: 20rem;
+  max-width: 100%;
   font-size: 1rem;
 }
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
   .masthead h1, .masthead .h1 {
     font-size: 4rem;
     line-height: 4rem;
   }
 }
-@media (min-width: 992px) {
+@media (min-width: 1200px) {
   .masthead {
     height: 100vh;
     padding: 0;
@@ -11644,6 +11644,17 @@ body {
   background: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.9) 75%, rgba(0, 0, 0, 0.8) 100%);
   
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 75%, #000 100%), url("../assets/img/ngc\ 3582\ eso.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-size: cover;
+}
+
+.home-head {
+  padding-top: 10rem;
+  background: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.9) 75%, rgba(0, 0, 0, 0.8) 100%);
+  
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 75%, #000 100%), url("../assets/img/mw_ir.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll;
