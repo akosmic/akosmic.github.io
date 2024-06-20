@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Stastronomy - Statistics & Astronomy</title>
+        <title>ds9 scripting</title>
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
@@ -37,7 +37,7 @@
         </nav>
 
 
-        <header class="blog-post-star-wars">
+        <header class="blog-post-ds9-subprocesses">
             <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
                 <div class="d-flex justify-content-center">
                     <div class="text-center">
@@ -60,109 +60,42 @@
                     
                     During my master's thesis work at the European Southern Observatory (ESO), I worked on searching for stellar clusters in the Milky Way
                     using whole GLIMPSE data, so, naturally I required three color images of a lot of
-                    objects and from different infrared surveys (2MASS, WISE, Spizter). To do this one by one was one heck of a problem, especially
+                    objects and from different infrared surveys (2MASS, WISE, Spitzer). To do this one by one was one heck of a problem, especially
                     when you have 100s of sources. A good solution is go to IRSA website and download the images one by one but for how long?
-                    An automated or at least semi-automated process is indeed required. I found a new pay to fetch the images by using a new python
-                    module called pyESASky (link here) and this was introduced to me by Marcos Lopez (ESA/ESAC, Madrid) in the SciOPs conference on AI, 2022 held
-                    at European Southern Observatory HQ in Garching. But the website is still a bit experimental and there is problem with minimum 
+                    An automated or at least semi-automated process is indeed required. I found a new way to fetch the images by using a new python
+                    module called <a href="https://github.com/esdc-esac-esa-int/pyesasky">pyESASky</a> and this was introduced to me by Marcos Lopez
+                    (ESA/ESAC, Madrid) in the SciOPs conference on AI, 2022 held
+                    at European Southern Observatory HQ in Garching. But the website was still a bit experimental and there is problem with minimum
                     size of images which could be fetched and it certainly doesn't match my requirements. So, I decided to do this the traditional
                     way using IRSA servers to fetch fits files and use DS9 to make three color images. Umm.. the main problem still exists though.
                     But... anything can be scripted as long as you don't have to prove yourself "not as robot". Although, pyds9 exists, I could not
                     find an operational version (:/). So, I decided to combine python subprocesses and DS9 to automatically generate three color images.
 
+                    <p style="margin-left:15px;" style="margin-right:25px;">
                     The idea is to download all the fits files from IRSA by passing a list of coordinates and saving it. I'd suggest not to fetch more than
                     100 images at once as the website is a bit slow. After you have a zip file dowloaded to a folder, just unzip it and you'll see folders
                     with named ra+dec (ex. 293.711682+20.625794 or 293.711682+20.625794) and with raw fits images (ex. 2mass_j, 2mass_h, 2mass_k) with
                     systematic naming (a big shoutout to IRSA DB managers here). Now, let's get on point to run the python subprocesses to run DS9. I have collected
-                    the commands from DS9's website: https://ds9.si.edu/doc/ref/command.html
+                    the commands from DS9's website: <a href="https://ds9.si.edu/doc/ref/command.html"> DS9 Commands</a>
+                    </p>
 
 
-
-                    Code:
+                    <p style="margin-left:15px;" style="margin-right:25px;">
+                    Interesting note: DS9 is named after Star Trek series Deep Space 9.
+                    </p>
 
                     <pre><code>
 
                     import numpy as np
                     from astropy.io import fits
 
-                    print("Code coming up here shortly!)
+                    print(f"Code coming up here shortly!")
 
                     </code></pre>
-                    
-
-            
-    
                 
                 </p>
-
-                <div class="center" id="fig1">
-                    <img  class="img-fluid" src="assets/img/m15-glcl.jpg" width="500" height="500" alt="..." />
-                    <figcaption> Fig. 1: M15 Globular Cluster (Credits: ESA/NASA)</figcaption>
-                </div>
-                
-                <p style="margin-left:15px;" style="margin-right:25px;"> 
-                    Having understood how these globular clusters work, let's jump in and see some hard to find and newer
-                    globular cluster candiates, which are not detectable in visible wavelength but can be found in the 
-                    Infrared light and find one more reason to love Infrared (IR) wavelength range. So, let's hop on to 
-                    see some opaque, hidden globular cluster.
-        
-
-
-
-                </p>
-                <h1 style="margin-left:25px;">UKS-1: Globular Cluster</h1>
-                <p style="margin-left:15px;" style="margin-right:25px;"> 
-                    UKS-1 is a pretty distant globular cluster and very redenned too i.e. far embedded in the Interstellar 
-                    dust. This means in the lower wavelengths like optical it would be hard to find but with the higher
-                    wavelength like in IR range we might be able to see something. Here we look at two pictures (data from
-                    NASA Skyview), one from Digital Sky Survey 1 (DSS-1) (red and blue bands used) and other from Two Micron All
-                    Sky Survey (2MASS) (JHK bands used). DSS-1 is an optical survey whereas 2MASS is a Near-Infrared survey.
-                    Let's compare the two images of same globular cluster.
-
-
-
-
-                </p>
-
-                <p style="margin-left:15px;" style="margin-right:25px;">
-                    The DSS-1 Optical Image is shown in <a href="#fig2"> fig 2</a> and the 2MASS NIR image is in 
-                    <a href="#fig3"> fig 3</a>. It is clear the amout of dust extinction suffered is huge and the cluster cannot
-                    be virtually detected in the Optical light. This again proves the robustness of IR Astronomy to dust and gages in the
-                    Interstellar Medium (ISM) and gives us some amazing discoveries.
-            
-                </p>
-
-
-                <div style="width: 100%; margin-left: 25px">
-                    <div style="width: 50%; height: 100px; float: left;" id="fig2">
-                        <img  class="img-fluid" src="assets/img/uks-1 dss.jpeg" width="500" height="500" alt="..." />
-                        <figcaption> Fig. 2: UKS-1 in DSS-1/Optical</figcaption>
-                    </div>
-
-                    <div style="margin-left: 50%; height: 100px;" id="fig3">
-                        <img  class="img-fluid" src="assets/img/uks-1 2mass.jpeg" width="500" height="500" alt="..." />
-                        <figcaption> Fig. 3: UKS-1 in 2MASS/Infrared</figcaption>
-                    </div>
-                </div>
-            
-                
-
-
             </section>
             
-            
-<section class="projects-section bg-light" id="References">
-    <div class="mx-auto my-0 text-black">
-        <h1 style="margin-left: 25px;" > <br> <br> <br> References:
-        </h1>
-        <p style="margin-left:15px;" style="margin-right:25px;">
-            <a href="https://ui.adsabs.harvard.edu/abs/2005MNRAS.363..897O/abstract">Near-infrared photometry and 
-                spectroscopy of NGC 6539 and UKS 1: two intermediate metallicity bulge globular clusters*</a> <br>
-            <a href="https://ui.adsabs.harvard.edu/abs/2011A%26A...527A..81M/abstract">Discovery of VVV CL001. A low-mass 
-                globular cluster next to UKS 1 in the direction of the Galactic bulge</a>
 
-
-
-        </p>
-
-    </div>
+</body>
+</html>
