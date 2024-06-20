@@ -58,7 +58,8 @@
                 <h1 style="color:rgb(218, 8, 8); margin-left:55px;">DS9 scripting using Python subprocesses<br></h1>
                 <p style="margin-left:15px;" style="margin-right:25px;">
                     
-                    I am currently working on star clusters and using whole GLIMPSE data, so, naturally I required three color images of a lot of
+                    During my master's thesis work at the European Southern Observatory (ESO), I worked on searching for stellar clusters in the Milky Way
+                    using whole GLIMPSE data, so, naturally I required three color images of a lot of
                     objects and from different infrared surveys (2MASS, WISE, Spizter). To do this one by one was one heck of a problem, especially
                     when you have 100s of sources. A good solution is go to IRSA website and download the images one by one but for how long?
                     An automated or at least semi-automated process is indeed required. I found a new pay to fetch the images by using a new python
@@ -72,13 +73,21 @@
                     The idea is to download all the fits files from IRSA by passing a list of coordinates and saving it. I'd suggest not to fetch more than
                     100 images at once as the website is a bit slow. After you have a zip file dowloaded to a folder, just unzip it and you'll see folders
                     with named ra+dec (ex. 293.711682+20.625794 or 293.711682+20.625794) and with raw fits images (ex. 2mass_j, 2mass_h, 2mass_k) with
-                    systematic naming (a big shoutout to IRSA DB managers here). Now, let's get on point to run the python subprocesses to run DS9:
-
-
+                    systematic naming (a big shoutout to IRSA DB managers here). Now, let's get on point to run the python subprocesses to run DS9. I have collected
+                    the commands from DS9's website: https://ds9.si.edu/doc/ref/command.html
 
 
 
                     Code:
+
+                    <pre><code>
+
+                    import numpy as np
+                    from astropy.io import fits
+
+                    print("Code coming up here shortly!)
+
+                    </code></pre>
                     
 
             
