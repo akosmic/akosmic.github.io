@@ -12,8 +12,26 @@
         <!-- Google fonts-->
         <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/default.min.css">
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
+        <style>
+        .code-cell {
+            background-color: #f7f7f7;
+            border: 1px solid #e1e1e1;
+            border-radius: 4px;
+            padding: 10px;
+            margin: 20px 0;
+        }
+        pre {
+            margin: 0;
+        }
+        .input-prompt {
+            color: #303f9f;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+    </style>
     </head>
 
 
@@ -58,9 +76,9 @@
                 <h1 style="color:rgb(218, 8, 8); margin-left:55px;">DS9 scripting using Python subprocesses<br></h1>
                 <p style="margin-left:15px;" style="margin-right:25px;">
                     
-                    During my master's thesis work at the European Southern Observatory (ESO), I worked on searching for stellar clusters in the Milky Way
+                    During my master's thesis (<b>Gupta et. el. 2024, submitted to A&A</b>) work at the European Southern Observatory (ESO), I worked on searching for stellar clusters in the Milky Way
                     using whole GLIMPSE data, so, naturally I required three color images of a lot of
-                    objects and from different infrared surveys (2MASS, WISE, Spitzer). To do this one by one was one heck of a problem, especially
+                    objects and from different infrared surveys (2MASS, <i>WISE</i>, <i>Spitzer</i>). To do this one by one was one heck of a problem, especially
                     when you have 100s of sources. A good solution is go to IRSA website and download the images one by one but for how long?
                     An automated or at least semi-automated process is indeed required. I found a new way to fetch the images by using a new python
                     module called <a href="https://github.com/esdc-esac-esa-int/pyesasky">pyESASky</a> and this was introduced to me by Marcos Lopez
@@ -84,16 +102,131 @@
                     Interesting note: DS9 is named after Star Trek series Deep Space 9.
                     </p>
 
-                    <pre><code>
+                    <h4><b>Load packages: </b></h4>
+                <div class="code-cell">
+                    <span class="input-prompt">In [1]:</span>
+                    <pre><code class="python">
 
-                    import numpy as np
-                    from astropy.io import fits
-
-                    print(f"Code coming up here shortly!")
+                        import pandas as pd
+                        from decimal import Decimal
+                        import subprocess
+                        import time
+                        import matplotlib.pyplot as plt
+                        from astropy.coordinates import SkyCoord
+                        from astropy import units as u
+                        from PIL import Image
 
                     </code></pre>
-                
+                </div>
+                <p> <b> pip installation: </b> <code> pip install pandas matplotlib astropy pillow </code> <br>
+                    Install <code>matplotlib</code> only for visualization using Python.
                 </p>
+
+                <h4><b>Main script: </b></h4>
+
+                <div class="code-cell">
+                <span class="input-prompt">In [2]:</span>
+                <pre><code class="python">
+                aprg = pd.read_csv('C:/Users/akash/Downloads/APRG_All-part1/coords.csv')
+
+                for i in range(aprg.shape[0]):
+
+                    radec = "%f" % (aprg['ra'][i]) + "%+f" % (aprg['dec'][i])  # due to filename
+                    print(i / aprg.shape[0])
+                    ds9 = subprocess.Popen('C:\SAOImageDS9\ds9.exe \
+                                          -rgb -fits \
+                                          C:/Users/akash/Downloads/APRG_All-part1/' + radec + '/fc_' + radec + '_spitzer_seipirac4(2.4)_reproj.fits -scale ZScale \
+                                          -rgb channel green -fits \
+                                          C:/Users/akash/Downloads/APRG_All-part1/' + radec + '/fc_' + radec + '_spitzer_seipirac2(2.4)_reproj.fits -scale ZScale \
+                                          -rgb channel blue -fits \
+                                         C:/Users/akash/Downloads/APRG_All-part1/' + radec + '/fc_' + radec + '_spitzer_seipirac1(2.4)_reproj.fits \
+                                          -scale ZScale -zoom to fit -colorbar no \
+                                          -export C:/Users/akash/Desktop/MIROCLS/Three_Color_Images/GLIMPSE/' + radec + '_glimpse.jpeg 100')
+
+                    time.sleep(5.0)
+                    ds9.terminate()
+
+                    ds9 = subprocess.Popen('C:\SAOImageDS9\ds9.exe \
+                                          -rgb -fits \
+                                          C:/Users/akash/Downloads/APRG_All-part1/' + radec + '/fc_' + radec + '_wise_4_reproj.fits -scale ZScale \
+                                          -rgb channel green -fits \
+                                          C:/Users/akash/Downloads/APRG_All-part1/' + radec + '/fc_' + radec + '_wise_2_reproj.fits -scale ZScale \
+                                          -rgb channel blue -fits \
+                                         C:/Users/akash/Downloads/APRG_All-part1/' + radec + '/fc_' + radec + '_wise_1_reproj.fits \
+                                          -scale ZScale -zoom to fit -colorbar no \
+                                          -export C:/Users/akash/Desktop/MIROCLS/Three_Color_Images/WISE/' + radec + '_wise.jpeg 100')
+
+                    time.sleep(5.0)
+                    ds9.terminate()
+
+                    ds9 = subprocess.Popen('C:\SAOImageDS9\ds9.exe \
+                                          -rgb -fits \
+                                          C:/Users/akash/Downloads/APRG_All-part1/' + radec + '/fc_' + radec + '_2mass_k_reproj.fits -scale ZScale \
+                                          -rgb channel green -fits \
+                                          C:/Users/akash/Downloads/APRG_All-part1/' + radec + '/fc_' + radec + '_2mass_h_reproj.fits -scale ZScale \
+                                          -rgb channel blue -fits \
+                                         C:/Users/akash/Downloads/APRG_All-part1/' + radec + '/fc_' + radec + '_2mass_j_reproj.fits \
+                                          -scale ZScale -zoom to fit -colorbar no \
+                                          -export C:/Users/akash/Desktop/MIROCLS/Three_Color_Images/2MASS/' + radec + '_2mass.jpeg 100')
+
+                    time.sleep(5.0)
+                    ds9.terminate()
+
+                </code></pre>
+                </div>
+
+                <p>
+                    I have created three instances of ds9 scripting in <i>Spitzer</i>, <i>WISE</i> and 2MASS respectively. As you can see all of them use same chain
+                    of commands except for the filenames ofc. I have my coordinates (ra, dec) and radius of the region in a datafile. I uploaded it to
+                    IRSA Finder Chart and it gave me zipped file with a file format <i>fc_ra+dec_2mass_k_reproj.fits</i> (similarly for <i>Spitzer</i>/IRAC and <i>WISE</i>).
+                    Since the outfiles are names something like <i>..210.32+55.46_2m...fits</i> or <i>..210.32-55.46_2m...fits</i>, we use initial list with a string
+                    formatting <code>"%f" % (aprg['ra'][i]) + "%+f" % (aprg['dec'][i])</code> to ensure smooth readability of all the files.
+                    Subprocess works just like opening ds9, select rgb, fits, and load images, select scales, color, etc.
+                </p>
+
+                <h4><b>Visualization (optional, adjust according to your need):</b></h4>
+                <p>Forgive me for writing a shit script for visualization.</p>
+                <div class="code-cell">
+                <span class="input-prompt">In [3]:</span>
+                <pre><code class="python">
+                    #####################
+                    # GLIMPSE data plot #
+                    #####################
+
+                    fig, ax = plt.subplots(4, 5, figsize=(25, 20))
+                    for i in range(aprg.shape[0]):
+                        size = 150 / 3600
+                        ra, dec = aprg['ra'][i], aprg['dec'][i]
+                        ra, dec = round(Decimal(ra), 6), round(Decimal(dec), 6)
+                        radec = "%f" % (aprg['ra'][i]) + "%+f" % (aprg['dec'][i])
+                        gc = SkyCoord(ra=ra * u.degree, dec=dec * u.degree, frame='fk5', unit='deg')
+                        l, b = gc.galactic.l.value, gc.galactic.b.value
+
+                        img = Image.open('C:/Users/akash/Desktop/MIROCLS/Three_Color_Images/GLIMPSE/' + radec + '_glimpse.jpeg')
+                        j = i + 1
+                        if i < 5:
+                            ax[0, i].imshow(img, extent=(l - size * 0.5, l + size * 0.5, b - 0.5 * size, b + 0.5 * size))
+                            ax[0, i].set_title('APRG %d' % j + ' (%0.4f' % l + ', %0.4f)' % b, fontsize=15)
+                        elif 5 <= i < 10:
+                            ax[1, i - 5].imshow(img, extent=(l - size * 0.5, l + size * 0.5, b - 0.5 * size, b + 0.5 * size))
+                            ax[1, i - 5].set_title('APRG %d' % j + ' (%0.4f' % l + ', %0.4f)' % b, fontsize=15)
+                        elif 10 <= i < 15:
+                            ax[2, i - 10].imshow(img, extent=(l - size * 0.5, l + size * 0.5, b - 0.5 * size, b + 0.5 * size))
+                            ax[2, i - 10].set_title('APRG %d' % j + ' (%0.4f' % l + ', %0.4f)' % b, fontsize=15)
+                        elif 15 <= i < 20:
+                            ax[3, i - 15].imshow(img, extent=(l - size * 0.5, l + size * 0.5, b - 0.5 * size, b + 0.5 * size))
+                            ax[3, i - 15].set_title('APRG %d' % j + ' (%0.4f' % l + ', %0.4f)' % b, fontsize=15)
+                        elif 20 <= i < 25:
+                            ax[4, i - 20].imshow(img, extent=(l - size * 0.5, l + size * 0.5, b - 0.5 * size, b + 0.5 * size))
+                            ax[4, i - 20].set_title('APRG %d' % j + ' (%0.4f' % l + ', %0.4f)' % b, fontsize=15)
+                    plt.tight_layout()
+                    plt.savefig("C:/Users/akash/Desktop/MIROCLS/Three_Color_Images/GLIMPSE_APRG.pdf")
+                    plt.show()
+                </code></pre>
+                </div>
+
+                <h4><b>Stacked <i>Spitzer</i> Images from the code: </b> <br> All coordinates in Galactic Coordinate System.</h4>
+                <img src="assets/img/GLIMPSE_APRG_page-0001.jpg" alt = "Stacked <i>Spitzer</i> Images"  width="1500px" height="1200px">
             </section>
             
 
