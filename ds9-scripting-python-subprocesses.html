@@ -69,6 +69,39 @@
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
+        
+        /* Dark theme styles for blog post */
+        .dark-theme .code-cell {
+            background-color: #2a2a2a;
+            border-color: #3a3a3a;
+            color: #e0e0e0;
+        }
+        
+        .dark-theme .alert-info {
+            background-color: #1a3a52;
+            border-color: #2a5a7a;
+            color: #b3d9ff;
+        }
+        
+        .dark-theme .alert-warning {
+            background-color: #523a1a;
+            border-color: #7a5a2a;
+            color: #ffd9b3;
+        }
+        
+        .dark-theme .alert-secondary {
+            background-color: #2a2a2a;
+            border-color: #3a3a3a;
+            color: #d0d0d0;
+        }
+        
+        .dark-theme .lead {
+            color: #d0d0d0;
+        }
+        
+        .dark-theme .article-image {
+            box-shadow: 0 4px 8px rgba(255,255,255,0.1);
+        }
         </style>
     </head>
 
@@ -87,6 +120,11 @@
                         <li class="nav-item"><a class="nav-link" href="index.html#about">About</a></li>
                         <li class="nav-item"><a class="nav-link" href="index.html#projects">Posts</a></li>
                         <li class="nav-item"><a class="nav-link" href="index.html#signup">Contact</a></li>
+                        <li class="nav-item">
+                            <button id="theme-toggle" class="btn btn-outline-light btn-sm ms-2" aria-label="Toggle theme">
+                                <i class="fas fa-moon" id="theme-icon"></i>
+                            </button>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -117,7 +155,7 @@
                     <div class="row">
                         <div class="col-lg-10 mx-auto">
                             <p class="lead">
-                                During my master's thesis (<strong>Gupta et. al. 2024, submitted to A&A</strong>) work at the European Southern Observatory (ESO), I worked on searching for stellar clusters in the Milky Way using whole GLIMPSE data, so, naturally I required three color images of a lot of objects and from different infrared surveys (2MASS, <em>WISE</em>, <em>Spitzer</em>).
+                                During my master's thesis (<strong>Gupta et. al. 2024, </strong> <a href="https://www.aanda.org/articles/aa/full_html/2024/12/aa51078-24/aa51078-24.html" class="text-decoration-none">find paper here</a>) work at the European Southern Observatory (ESO), I worked on searching for stellar clusters in the Milky Way using whole GLIMPSE data, so, naturally I required three color images of a lot of objects and from different infrared surveys (2MASS, <em>WISE</em>, <em>Spitzer</em>).
                             </p>
                             
                             <p>
@@ -295,6 +333,39 @@ plt.show()</code></pre>
                 </div>
             </section>
             
+
+        <!-- Theme Toggle Script -->
+        <script>
+            // Theme toggle functionality
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIcon = document.getElementById('theme-icon');
+            const body = document.body;
+            
+            // Check for saved theme preference or default to dark mode
+            const currentTheme = localStorage.getItem('theme') || 'dark';
+            
+            // Apply saved theme on page load
+            if (currentTheme === 'dark') {
+                body.classList.add('dark-theme');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+            
+            // Theme toggle event listener
+            themeToggle.addEventListener('click', function() {
+                body.classList.toggle('dark-theme');
+                
+                if (body.classList.contains('dark-theme')) {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+        </script>
 
 </body>
 </html>

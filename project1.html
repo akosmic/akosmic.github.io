@@ -31,6 +31,11 @@
                         <li class="nav-item"><a class="nav-link" href="index.html#about">About</a></li>
                         <li class="nav-item"><a class="nav-link" href="index.html#projects">Posts</a></li>
                         <li class="nav-item"><a class="nav-link" href="index.html#signup">Contact</a></li>
+                        <li class="nav-item">
+                            <button id="theme-toggle" class="btn btn-outline-secondary btn-sm ms-2" title="Toggle theme">
+                                <i id="theme-icon" class="fas fa-moon"></i>
+                            </button>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -115,5 +120,46 @@
             
 
         </section>
+        
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+        
+        <!-- Theme Toggle Script -->
+        <script>
+            // Theme toggle functionality with default dark mode
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIcon = document.getElementById('theme-icon');
+            const body = document.body;
+            
+            // Check for saved theme preference or default to 'dark-theme'
+            const currentTheme = localStorage.getItem('theme') || 'dark-theme';
+            body.classList.add(currentTheme);
+            
+            // Update icon based on current theme
+            function updateIcon() {
+                if (body.classList.contains('dark-theme')) {
+                    themeIcon.className = 'fas fa-sun';
+                } else {
+                    themeIcon.className = 'fas fa-moon';
+                }
+            }
+            
+            // Set initial icon
+            updateIcon();
+            
+            // Theme toggle event listener
+            themeToggle.addEventListener('click', function() {
+                if (body.classList.contains('dark-theme')) {
+                    body.classList.remove('dark-theme');
+                    localStorage.setItem('theme', 'light-theme');
+                } else {
+                    body.classList.add('dark-theme');
+                    localStorage.setItem('theme', 'dark-theme');
+                }
+                updateIcon();
+            });
+        </script>
     </body>
     </html>

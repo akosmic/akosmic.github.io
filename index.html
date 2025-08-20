@@ -31,13 +31,18 @@
                         <li class="nav-item"><a class="nav-link" href="index.html#about">About</a></li>
                         <li class="nav-item"><a class="nav-link" href="index.html#projects">Posts</a></li>
                         <li class="nav-item"><a class="nav-link" href="index.html#signup">Contact</a></li>
+                        <li class="nav-item">
+                            <button id="theme-toggle" class="btn btn-outline-light btn-sm ms-2" aria-label="Toggle theme">
+                                <i class="fas fa-moon" id="theme-icon"></i>
+                            </button>
+                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
 
 
-        <header class="home-head">
+        <header class="home-head" style="position: relative;">
             <div class="container px-2 px-md-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
                 <div class="d-flex justify-content-center">
                     <div class="text-center">
@@ -48,9 +53,9 @@
                     </div>
                 </div>
             </div>
-            <p class="text-white d-none d-md-block" style="position: absolute; bottom: 1rem; right: 1rem; font-size: 0.875rem; margin: 0;">
-                Image: Milky Way Galaxy in Infrared <br> Image credits: NASA
-            </p>
+            <div class="image-credits" style="position: absolute; bottom: 0.75rem; right: 0.75rem; font-size: 0.75rem; margin: 0; background-color: rgba(0, 0, 0, 0.8); color: white; padding: 0.375rem 0.5rem; border-radius: 0.25rem; z-index: 100; backdrop-filter: blur(3px); line-height: 1.3;">
+                Image: Milky Way Galaxy in Infrared<br>Credits: NASA
+            </div>
         </header>
 
                 <!-- Projects-->
@@ -263,11 +268,11 @@
                     </div>
                 </div>
                 <div class="social d-flex justify-content-center mt-4">
-                    <a class="mx-2 text-decoration-none" href="https://twitter.com/stastronomer" aria-label="Twitter">
-                        <i class="fab fa-twitter me-1"></i>Twitter
+                    <a class="mx-4 px-4 py-2 text-decoration-none rounded" href="https://twitter.com/akosmic1" aria-label="Twitter" style="background-color: rgba(255, 255, 255, 0.1); transition: all 0.3s ease;">
+                        <i class="fab fa-twitter me-3" style="font-size: 1.2rem;"></i>Twitter
                     </a>
-                    <a class="mx-2 text-decoration-none" href="https://github.com/stastronomer" aria-label="GitHub">
-                        <i class="fab fa-github me-1"></i>GitHub
+                    <a class="mx-4 px-4 py-2 text-decoration-none rounded" href="https://github.com/akosmic" aria-label="GitHub" style="background-color: rgba(255, 255, 255, 0.1); transition: all 0.3s ease;">
+                        <i class="fab fa-github me-3" style="font-size: 1.2rem;"></i>GitHub
                     </a>
                 </div>
             </div>
@@ -283,5 +288,38 @@
         <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
         <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+        
+        <!-- Theme Toggle Script -->
+        <script>
+            // Theme toggle functionality
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIcon = document.getElementById('theme-icon');
+            const body = document.body;
+            
+            // Check for saved theme preference or default to dark mode
+            const currentTheme = localStorage.getItem('theme') || 'dark';
+            
+            // Apply saved theme on page load
+            if (currentTheme === 'dark') {
+                body.classList.add('dark-theme');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+            
+            // Theme toggle event listener
+            themeToggle.addEventListener('click', function() {
+                body.classList.toggle('dark-theme');
+                
+                if (body.classList.contains('dark-theme')) {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+        </script>
     </body>
 </html>
