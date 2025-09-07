@@ -11839,8 +11839,9 @@ body {
 .about-publications-section {
   padding-top: 3rem;
   padding-bottom: 3rem;
-  background-color: var(--bs-body-bg);
-  color: var(--bs-body-color);
+  /* Using inherit to merge with the parent element's background and color */
+  background-color: inherit;
+  color: inherit;
 }
 
 .about-content {
@@ -11855,9 +11856,9 @@ body {
 }
 
 .publication-item {
-  background-color: var(--bs-body-bg);
-  border-color: var(--bs-border-color) !important;
+  background-color: transparent;
   transition: all 0.3s ease;
+  border: none !important;
 }
 
 .publication-item:hover {
